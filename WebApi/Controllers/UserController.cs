@@ -25,15 +25,17 @@ namespace WebApi.Controllers
         private readonly ITokenRefresher _tokenRefresher;
         private readonly ICurrentUserService _currentUserService;
         private readonly IEventUsersService _eventUsersService;
+        private readonly IInviteService _inviteService;
 
         public UserController(ILoggingService loggingService, IJwtAuthenticationManager jwtAuthenticationManager,
-            ICurrentUserService currentUserService, IEventUsersService eventUsersService, ITokenRefresher tokenRefresher)
+            ICurrentUserService currentUserService, IEventUsersService eventUsersService, ITokenRefresher tokenRefresher, IInviteService inviteService)
         {
             _loggingService = loggingService;
             _jwtAuthenticationManager = jwtAuthenticationManager;
             _currentUserService = currentUserService;
             _eventUsersService = eventUsersService;
             _tokenRefresher = tokenRefresher;
+            _inviteService = inviteService;
         }
 
         [HttpGet]
@@ -100,6 +102,13 @@ namespace WebApi.Controllers
                 return NoContent();
             else
                 return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("showUsersToInvite")]
+        public IActionResult ShowUsersToInvite()
+        {
+            return Ok(_inviteService.GetUsersToInvite());
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Infrastructure.Services
                     new Claim(ClaimTypes.Name, username)
                 }),
                 //NotBefore = expires,
-                Expires = expires.AddMinutes(2),
+                Expires = expires.AddMinutes(200),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
