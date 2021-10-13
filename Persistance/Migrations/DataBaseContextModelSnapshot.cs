@@ -45,6 +45,7 @@ namespace Persistance.Migrations
 
                     b.Property<string>("OrganiserId")
                         .IsRequired()
+                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Place")
@@ -177,6 +178,21 @@ namespace Persistance.Migrations
                     b.ToTable("EventUser");
                 });
 
+            modelBuilder.Entity("EventUser1", b =>
+                {
+                    b.Property<int>("InvitedToEventsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InvitedUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("InvitedToEventsId", "InvitedUsersId");
+
+                    b.HasIndex("InvitedUsersId");
+
+                    b.ToTable("EventUser1");
+                });
+
             modelBuilder.Entity("Domain.Entities.Event", b =>
                 {
                     b.HasOne("Domain.Entities.Sport", "Sport")
@@ -199,6 +215,21 @@ namespace Persistance.Migrations
                     b.HasOne("Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EventUser1", b =>
+                {
+                    b.HasOne("Domain.Entities.Event", null)
+                        .WithMany()
+                        .HasForeignKey("InvitedToEventsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("InvitedUsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

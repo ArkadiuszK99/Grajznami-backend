@@ -59,6 +59,18 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("invite/{eventId}")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult InviteToEvent([FromRoute] int eventId, [FromBody] string userEmail)
+        {
+            var result = _eventUsersService.InviteCurrentUserToEvent(eventId, userEmail);
+            if (result)
+                return NoContent();
+            else
+                return BadRequest();
+        }
+
+        [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login(LoginDTO model)
         {

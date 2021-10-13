@@ -13,6 +13,7 @@ namespace Application.Interfaces
     {
         public List<UserEventsDTO> GetUserEvents();
         public bool SignCurrentUserToEvent(int eventId);
+        public bool InviteCurrentUserToEvent(int eventId, string userEmail);
         public List<EventUsersDTO> GetEventUsers(int eventId);
         public User GetCurrentUser();
         bool SignOutCurrentUserFromEvent(int eventId);

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistance.Migrations
 {
-    public partial class initMigration : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,6 +61,7 @@ namespace Persistance.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Place = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrganiserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     UsersLimit = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     IsPublic = table.Column<bool>(type: "bit", nullable: false),
@@ -102,6 +103,30 @@ namespace Persistance.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EventUser1",
+                columns: table => new
+                {
+                    InvitedToEventsId = table.Column<int>(type: "int", nullable: false),
+                    InvitedUsersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventUser1", x => new { x.InvitedToEventsId, x.InvitedUsersId });
+                    table.ForeignKey(
+                        name: "FK_EventUser1_Events_InvitedToEventsId",
+                        column: x => x.InvitedToEventsId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventUser1_Users_InvitedUsersId",
+                        column: x => x.InvitedUsersId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Events_SportId",
                 table: "Events",
@@ -111,12 +136,20 @@ namespace Persistance.Migrations
                 name: "IX_EventUser_UsersId",
                 table: "EventUser",
                 column: "UsersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventUser1_InvitedUsersId",
+                table: "EventUser1",
+                column: "InvitedUsersId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "EventUser");
+
+            migrationBuilder.DropTable(
+                name: "EventUser1");
 
             migrationBuilder.DropTable(
                 name: "Events");

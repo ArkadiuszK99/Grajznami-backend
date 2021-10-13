@@ -39,6 +39,20 @@ namespace Infrastructure.Services
             return _context.SaveChanges() > 0;
         }
 
+        // Funkcja zapraszająca użytkownika do eventu 
+        public bool InviteCurrentUserToEvent(int eventId, string userEmail)
+        {
+            var userToInvite = _context.Users.Where(x => x.Email == userEmail).Include(x => x.InvitedToEvents).SingleOrDefault();
+            var eventToInvite = _context.Events.Where(x => x.Id == eventId).Include(x => x.InvitedUsers).SingleOrDefault();
+            if (userToInvite == null || eventToInvite == null)
+                return false;
+            eventToInvite.InvitedUsers.Add(userToInvite);
+            _context.Events.Update(eventToInvite);
+            userToInvite.InvitedToEvents.Add(eventToInvite);
+            _context.Users.Update(userToInvite);
+            return _context.SaveChanges() > 0;
+        }
+
 
         // Funkcja zwracająca eventy, na które zapisany jest zalogowany użytkownik
         public List<UserEventsDTO> GetUserEvents()
@@ -50,6 +64,15 @@ namespace Infrastructure.Services
             return eventList;
         }
 
+        // Funkcja zwracająca eventy, na które zapisany jest zaproszony użytkownik
+        public List<UserEventsDTO> GetUserInvitations()
+        {
+            var user = GetCurrentUser();
+            UserEventsDTO userEvents = new UserEventsDTO();
+            var eventList = user.InvitedToEvents.Select(x => _mapper.Map(x, userEvents)).ToList();
+
+            return eventList;
+        }
 
         // Funkcja zwracająca imiona i nazwiska osób zapisanych na dane wydarzenie
         public List<EventUsersDTO> GetEventUsers(int eventId)

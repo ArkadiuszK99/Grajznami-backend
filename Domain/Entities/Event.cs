@@ -19,6 +19,7 @@ namespace Domain.Entities
         public string Place { get; set; }
         public DateTime Date { get; set; }
         public List<User> Users { get; set; }
+        public List<User> InvitedUsers { get; set; }
         public string OrganiserId { get; set; }
         public int UsersLimit { get; set; }
         public EventStatus Status { get; set; }

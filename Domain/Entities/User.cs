@@ -12,6 +12,7 @@ namespace Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public List<Event> Events { get; set; }
+        public List<Event> InvitedToEvents { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Description { get; set; }
         public string RefreshToken { get; set; }
