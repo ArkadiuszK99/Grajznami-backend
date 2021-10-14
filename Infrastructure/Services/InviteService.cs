@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Application.DTOs.EventDTOs;
 using Application.DTOs.UserDTOs;
 using AutoMapper;
+using Domain.Enum;
 
 namespace Infrastructure.Services
 {
@@ -63,6 +64,26 @@ namespace Infrastructure.Services
             var users = _context.Users.ToList();
             var userList = users.Select(item => _mapper.Map<User, InviteListUserDTO>(item)).ToList();
             return userList;
+        }
+
+        public async Task<List<ReturnEventDTO>> GetInvitations()
+        {
+            var user = GetCurrentUser();
+            var events = await _context.Events.Where(a => a.InvitedUsers.Contains(user)).Include(x => x.Users).ToListAsync();
+            List<ReturnEventDTO> evToReturn = _mapper.Map<List<Event>, List<ReturnEventDTO>>(events);
+
+            foreach (var @event in evToReturn)
+            {
+                @event.SportName = _context.Sports.Where(x => x.Id == @event.SportId).SingleOrDefault().Name;
+                @event.OrganiserName = _context.Users.Where(x => x.Id == @event.OrganiserId).SingleOrDefault().FirstName;
+            }
+
+            for (int i = 0; i < events.Count(); i++)
+            {
+                evToReturn[i].UsersCount = events[i].Users.Count();
+            }
+
+            return evToReturn;
         }
     }
 }

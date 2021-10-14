@@ -122,5 +122,13 @@ namespace WebApi.Controllers
         {
             return Ok(_inviteService.GetUsersToInvite());
         }
+
+        [HttpGet]
+        [Route("returnInvitations")]
+        public async Task<IActionResult> ReturnInvitations()
+        {
+            var events = await _inviteService.GetInvitations();
+            return Ok(events);
+        }
     }
 }

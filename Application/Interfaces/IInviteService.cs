@@ -15,5 +15,6 @@ namespace Application.Interfaces
         public List<EventUsersDTO> GetEventUsers(int eventId);
         public List<InviteListUserDTO> GetUsersToInvite();
         public User GetCurrentUser();
+        public Task<List<ReturnEventDTO>> GetInvitations();
     }
 }
