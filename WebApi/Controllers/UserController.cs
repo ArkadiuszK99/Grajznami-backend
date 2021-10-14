@@ -60,10 +60,9 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("invite/{eventId}")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult InviteToEvent([FromRoute] int eventId, [FromBody] string userEmail)
+        public IActionResult InviteToEvent([FromBody] EmailDTO model, [FromRoute] int eventId)
         {
-            var result = _eventUsersService.InviteCurrentUserToEvent(eventId, userEmail);
+            var result = _eventUsersService.InviteCurrentUserToEvent(eventId, model.Email);
             if (result)
                 return NoContent();
             else

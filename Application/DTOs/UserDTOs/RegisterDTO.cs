@@ -16,5 +16,8 @@ namespace Application.DTOs
         public string PhoneNumber { get; set; }
         public string Description { get; set; }
         public DateTime DateOfBirth { get; set; }
+        //public string FavouriteSport { get; set; }
+        //public string Skill { get; set; }
+        //public string City { get; set; }
     }
 }

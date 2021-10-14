@@ -16,5 +16,8 @@ namespace Domain.Entities
         public DateTime DateOfBirth { get; set; }
         public string Description { get; set; }
         public string RefreshToken { get; set; }
+        //public string FavouriteSport { get; set; }
+        //public string Skill { get; set; }
+        //public string City { get; set; }
     }
 }
