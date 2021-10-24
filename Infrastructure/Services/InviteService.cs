@@ -9,6 +9,7 @@ using Application.DTOs.EventDTOs;
 using Application.DTOs.UserDTOs;
 using AutoMapper;
 using Domain.Enum;
+using System;
 
 namespace Infrastructure.Services
 {
@@ -59,10 +60,63 @@ namespace Infrastructure.Services
             return user;
         }
 
-        public List<InviteListUserDTO> GetUsersToInvite()
+        public List<InviteListUserDTO> GetUsersToInvite(int eventId)
         {
-            var users = _context.Users.ToList();
-            var userList = users.Select(item => _mapper.Map<User, InviteListUserDTO>(item)).ToList();
+            var usersToInvite = _context.Users.Include(x => x.Events).ToList();
+            usersToInvite.Remove(GetCurrentUser());
+
+            var @event = _context.Events.Where(x => x.Id == eventId).Include(x => x.Users).Include(x => x.InvitedUsers).Include(x => x.Sport).SingleOrDefault();
+
+            foreach (var user in @event.Users)
+            {
+                usersToInvite.Remove(user);
+            }
+
+            foreach (var user in @event.InvitedUsers)
+            {
+                usersToInvite.Remove(user);
+            }
+
+            foreach (var user in usersToInvite)
+            {
+                if (user.City == @event.Users.First().City)
+                {
+                    user.InvitePoints += 200;
+                }
+                if (user.FavouriteSport == @event.Sport.Name)
+                {
+                   user.InvitePoints += 100;
+                }
+                if (user.Skill == @event.Users.First().Skill)
+                {
+                    user.InvitePoints += 30;
+                }
+
+                DateTime minusFive = @event.Users.First().DateOfBirth.AddYears(-5);
+                DateTime plusFive = @event.Users.First().DateOfBirth.AddYears(5);
+                int minusResult = DateTime.Compare(user.DateOfBirth, minusFive);
+                int plusResult = DateTime.Compare(user.DateOfBirth, plusFive);
+
+                if (minusResult > 0 && plusResult <0)
+                {
+                    user.InvitePoints += 30;
+                }
+
+                int i = 0;
+                foreach (var participatedEvent in user.Events)
+                {
+                    i++;
+                    if(participatedEvent.Sport == @event.Sport)
+                    {
+                        user.InvitePoints += 20;
+                    }
+                    if (i == 5) break;
+                }
+                i = 0;
+            }
+            var usersToInviteDescending = usersToInvite.OrderByDescending(x => x.InvitePoints).ToList();
+
+            var userList = usersToInviteDescending.Select(item => _mapper.Map<User, InviteListUserDTO>(item)).ToList();
             return userList;
         }
 

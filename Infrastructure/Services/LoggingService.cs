@@ -47,9 +47,9 @@ namespace Infrastructure.Services
                 PhoneNumber = model.PhoneNumber,
                 Description = model.Description,
                 DateOfBirth = model.DateOfBirth,
-                //FavouriteSport = model.FavouriteSport,
-                //Skill = model.Skill,
-                //City = model.City,
+                FavouriteSport = model.FavouriteSport,
+                Skill = model.Skill,
+                City = model.City,
             };
            
             var createAccountResult = await _userManager.CreateAsync(user, model.Password);

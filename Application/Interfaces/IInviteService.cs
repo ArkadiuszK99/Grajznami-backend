@@ -13,7 +13,7 @@ namespace Application.Interfaces
     {
         public bool SignCurrentUserToEvent(int eventId);
         public List<EventUsersDTO> GetEventUsers(int eventId);
-        public List<InviteListUserDTO> GetUsersToInvite();
+        public List<InviteListUserDTO> GetUsersToInvite(int eventId);
         public User GetCurrentUser();
         public Task<List<ReturnEventDTO>> GetInvitations();
     }

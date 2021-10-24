@@ -116,10 +116,10 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("showUsersToInvite")]
-        public IActionResult ShowUsersToInvite()
+        [Route("showUsersToInvite/{eventId}")]
+        public IActionResult ShowUsersToInvite([FromRoute] int eventId)
         {
-            return Ok(_inviteService.GetUsersToInvite());
+            return Ok(_inviteService.GetUsersToInvite(eventId));
         }
 
         [HttpGet]
