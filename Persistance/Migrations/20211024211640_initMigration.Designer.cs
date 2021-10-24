@@ -10,7 +10,7 @@ using Persistance.Contexts;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20211024170110_initMigration")]
+    [Migration("20211024211640_initMigration")]
     partial class initMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,8 +127,8 @@ namespace Persistance.Migrations
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
-                    b.Property<string>("InvitePoints")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("InvitePoints")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()

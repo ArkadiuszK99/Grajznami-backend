@@ -33,7 +33,7 @@ namespace Persistance.Migrations
                     FavouriteSport = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Skill = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InvitePoints = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InvitePoints = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),

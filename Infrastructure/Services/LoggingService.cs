@@ -50,6 +50,7 @@ namespace Infrastructure.Services
                 FavouriteSport = model.FavouriteSport,
                 Skill = model.Skill,
                 City = model.City,
+                InvitePoints = 0,
             };
            
             var createAccountResult = await _userManager.CreateAsync(user, model.Password);

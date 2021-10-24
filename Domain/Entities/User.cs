@@ -19,6 +19,6 @@ namespace Domain.Entities
         public string FavouriteSport { get; set; }
         public string Skill { get; set; }
         public string City { get; set; }
-        public string InvitePoints { get; set; }
+        public int InvitePoints { get; set; }
     }
 }

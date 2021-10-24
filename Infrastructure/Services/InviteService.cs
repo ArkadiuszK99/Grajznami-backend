@@ -89,7 +89,7 @@ namespace Infrastructure.Services
                 }
                 if (user.Skill == @event.Users.First().Skill)
                 {
-                    user.InvitePoints += 30;
+                    user.InvitePoints += 50;
                 }
 
                 DateTime minusFive = @event.Users.First().DateOfBirth.AddYears(-5);

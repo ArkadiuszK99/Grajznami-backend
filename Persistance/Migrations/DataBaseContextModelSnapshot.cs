@@ -125,8 +125,8 @@ namespace Persistance.Migrations
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
-                    b.Property<string>("InvitePoints")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("InvitePoints")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
