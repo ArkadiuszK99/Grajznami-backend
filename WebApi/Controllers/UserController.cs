@@ -38,13 +38,6 @@ namespace WebApi.Controllers
             _inviteService = inviteService;
         }
 
-        [HttpGet]
-        [Route("userevents")]
-        public IActionResult GetUserEvents()
-        {
-            return Ok(_eventUsersService.GetUserEvents());
-        }
-
 
         [HttpPost]
         [Route("{eventId}")]
@@ -127,6 +120,22 @@ namespace WebApi.Controllers
         public async Task<IActionResult> ReturnInvitations()
         {
             var events = await _inviteService.GetInvitations();
+            return Ok(events);
+        }
+
+        [HttpGet]
+        [Route("returnEventsUserIsSignedTo")]
+        public async Task<IActionResult> ReturnEventsUserIsSignedTo()
+        {
+            var events = await _eventUsersService.GetEventsUserIsSignedTo();
+            return Ok(events);
+        }
+
+        [HttpGet]
+        [Route("userEvents")]
+        public async Task<IActionResult> ReturnUserEvents()
+        {
+            var events = await _eventUsersService.GetUserEvents();
             return Ok(events);
         }
     }

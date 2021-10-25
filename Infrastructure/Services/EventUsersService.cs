@@ -29,10 +29,11 @@ namespace Infrastructure.Services
         public bool SignCurrentUserToEvent(int eventId) 
         {
             var userToSign = GetCurrentUser();
-            var eventToSign = _context.Events.Where(x => x.Id == eventId).Include(x => x.Users).SingleOrDefault();
+            var eventToSign = _context.Events.Where(x => x.Id == eventId).Include(x => x.Users).Include(x => x.InvitedUsers).SingleOrDefault();
             if (userToSign == null || eventToSign == null)
                 return false;
             eventToSign.Users.Add(userToSign);
+            eventToSign.InvitedUsers.Remove(userToSign);
             _context.Events.Update(eventToSign);
             userToSign.Events.Add(eventToSign);
             _context.Users.Update(userToSign);
@@ -55,13 +56,47 @@ namespace Infrastructure.Services
 
 
         // Funkcja zwracająca eventy, na które zapisany jest zalogowany użytkownik
-        public List<UserEventsDTO> GetUserEvents()
+
+        public async Task<List<ReturnEventDTO>> GetEventsUserIsSignedTo()
         {
             var user = GetCurrentUser();
-            UserEventsDTO userEvents = new UserEventsDTO();
-            var eventList = user.Events.Select(x => _mapper.Map(x, userEvents)).ToList();
+            var events = user.Events;
+            List<ReturnEventDTO> evToReturn = _mapper.Map<List<Event>, List<ReturnEventDTO>>(events);
 
-            return eventList;
+            foreach (var @event in evToReturn)
+            {
+                @event.SportName = _context.Sports.Where(x => x.Id == @event.SportId).SingleOrDefault().Name;
+                @event.OrganiserName = _context.Users.Where(x => x.Id == @event.OrganiserId).SingleOrDefault().FirstName;
+            }
+
+            for (int i = 0; i < events.Count(); i++)
+            {
+                evToReturn[i].UsersCount = events[i].Users.Count();
+            }
+
+            return evToReturn;
+        }
+
+        // Funkcja zwracająca eventy zalogowanego użytkownika
+
+        public async Task<List<ReturnEventDTO>> GetUserEvents()
+        {
+            var user = GetCurrentUser();
+            var events = user.Events.Where(x => x.OrganiserId == user.Id).ToList();
+            List<ReturnEventDTO> evToReturn = _mapper.Map<List<Event>, List<ReturnEventDTO>>(events);
+
+            foreach (var @event in evToReturn)
+            {
+                @event.SportName = _context.Sports.Where(x => x.Id == @event.SportId).SingleOrDefault().Name;
+                @event.OrganiserName = _context.Users.Where(x => x.Id == @event.OrganiserId).SingleOrDefault().FirstName;
+            }
+
+            for (int i = 0; i < events.Count(); i++)
+            {
+                evToReturn[i].UsersCount = events[i].Users.Count();
+            }
+
+            return evToReturn;
         }
 
         // Funkcja zwracająca eventy, na które zapisany jest zaproszony użytkownik

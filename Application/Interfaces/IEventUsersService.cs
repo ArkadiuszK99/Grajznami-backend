@@ -11,7 +11,8 @@ namespace Application.Interfaces
 {
     public interface IEventUsersService
     {
-        public List<UserEventsDTO> GetUserEvents();
+        public Task<List<ReturnEventDTO>> GetEventsUserIsSignedTo();
+        public Task<List<ReturnEventDTO>> GetUserEvents();
         public bool SignCurrentUserToEvent(int eventId);
         public bool InviteCurrentUserToEvent(int eventId, string userEmail);
         public List<EventUsersDTO> GetEventUsers(int eventId);
