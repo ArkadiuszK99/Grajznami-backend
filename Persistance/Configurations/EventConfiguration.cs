@@ -49,6 +49,12 @@ namespace Persistance.Contexts
 
             builder.HasMany(u => u.InvitedUsers)
             .WithMany(t => t.InvitedToEvents);
+
+            builder.HasMany(u => u.InvitedTrainers)
+            .WithMany(t => t.InvitedToTrainEvents);
+
+            builder.HasOne(u => u.Trainer)
+            .WithMany(t => t.TrainedEvents);
         }
     }
 }

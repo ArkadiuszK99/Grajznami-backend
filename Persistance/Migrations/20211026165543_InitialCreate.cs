@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistance.Migrations
 {
-    public partial class initMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,6 +34,9 @@ namespace Persistance.Migrations
                     Skill = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InvitePoints = table.Column<int>(type: "int", nullable: false),
+                    IsTrainer = table.Column<bool>(type: "bit", nullable: false),
+                    TrainedSport = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TrainingPrice = table.Column<float>(type: "real", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -65,6 +68,7 @@ namespace Persistance.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Place = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TrainerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     OrganiserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     UsersLimit = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -81,6 +85,12 @@ namespace Persistance.Migrations
                         principalTable: "Sports",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Events_Users_TrainerId",
+                        column: x => x.TrainerId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -131,10 +141,39 @@ namespace Persistance.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EventUser2",
+                columns: table => new
+                {
+                    InvitedToTrainEventsId = table.Column<int>(type: "int", nullable: false),
+                    InvitedTrainersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventUser2", x => new { x.InvitedToTrainEventsId, x.InvitedTrainersId });
+                    table.ForeignKey(
+                        name: "FK_EventUser2_Events_InvitedToTrainEventsId",
+                        column: x => x.InvitedToTrainEventsId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventUser2_Users_InvitedTrainersId",
+                        column: x => x.InvitedTrainersId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Events_SportId",
                 table: "Events",
                 column: "SportId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_TrainerId",
+                table: "Events",
+                column: "TrainerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventUser_UsersId",
@@ -145,6 +184,11 @@ namespace Persistance.Migrations
                 name: "IX_EventUser1_InvitedUsersId",
                 table: "EventUser1",
                 column: "InvitedUsersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventUser2_InvitedTrainersId",
+                table: "EventUser2",
+                column: "InvitedTrainersId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -156,13 +200,16 @@ namespace Persistance.Migrations
                 name: "EventUser1");
 
             migrationBuilder.DropTable(
+                name: "EventUser2");
+
+            migrationBuilder.DropTable(
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Sports");
 
             migrationBuilder.DropTable(
-                name: "Sports");
+                name: "Users");
         }
     }
 }

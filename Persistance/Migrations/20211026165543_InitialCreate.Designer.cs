@@ -10,8 +10,8 @@ using Persistance.Contexts;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20211024211640_initMigration")]
-    partial class initMigration
+    [Migration("20211026165543_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,12 +64,17 @@ namespace Persistance.Migrations
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,4)");
 
+                    b.Property<string>("TrainerId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("UsersLimit")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SportId");
+
+                    b.HasIndex("TrainerId");
 
                     b.ToTable("Events");
                 });
@@ -130,6 +135,9 @@ namespace Persistance.Migrations
                     b.Property<int>("InvitePoints")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsTrainer")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(26)
@@ -165,6 +173,12 @@ namespace Persistance.Migrations
 
                     b.Property<string>("Skill")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrainedSport")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("TrainingPrice")
+                        .HasColumnType("real");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -207,6 +221,21 @@ namespace Persistance.Migrations
                     b.ToTable("EventUser1");
                 });
 
+            modelBuilder.Entity("EventUser2", b =>
+                {
+                    b.Property<int>("InvitedToTrainEventsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InvitedTrainersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("InvitedToTrainEventsId", "InvitedTrainersId");
+
+                    b.HasIndex("InvitedTrainersId");
+
+                    b.ToTable("EventUser2");
+                });
+
             modelBuilder.Entity("Domain.Entities.Event", b =>
                 {
                     b.HasOne("Domain.Entities.Sport", "Sport")
@@ -215,7 +244,13 @@ namespace Persistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Entities.User", "Trainer")
+                        .WithMany("TrainedEvents")
+                        .HasForeignKey("TrainerId");
+
                     b.Navigation("Sport");
+
+                    b.Navigation("Trainer");
                 });
 
             modelBuilder.Entity("EventUser", b =>
@@ -248,9 +283,29 @@ namespace Persistance.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("EventUser2", b =>
+                {
+                    b.HasOne("Domain.Entities.Event", null)
+                        .WithMany()
+                        .HasForeignKey("InvitedToTrainEventsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("InvitedTrainersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entities.Sport", b =>
                 {
                     b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
+                {
+                    b.Navigation("TrainedEvents");
                 });
 #pragma warning restore 612, 618
         }

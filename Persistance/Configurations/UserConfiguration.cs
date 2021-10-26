@@ -33,6 +33,12 @@ namespace Persistance.Configurations
 
             builder.HasMany(u => u.InvitedToEvents)
             .WithMany(t => t.InvitedUsers);
+
+            builder.HasMany(u => u.InvitedToTrainEvents)
+            .WithMany(t => t.InvitedTrainers);
+
+            builder.HasMany(u => u.TrainedEvents)
+            .WithOne(t => t.Trainer);
         }
     }
 }

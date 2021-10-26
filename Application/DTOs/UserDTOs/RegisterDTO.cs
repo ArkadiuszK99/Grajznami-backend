@@ -19,5 +19,8 @@ namespace Application.DTOs
         public string FavouriteSport { get; set; }
         public string Skill { get; set; }
         public string City { get; set; }
+        public bool IsTrainer { get; set; }
+        public string TrainedSport { get; set; }
+        public float TrainingPrice { get; set; }
     }
 }

@@ -50,6 +50,9 @@ namespace Infrastructure.Services
                 FavouriteSport = model.FavouriteSport,
                 Skill = model.Skill,
                 City = model.City,
+                IsTrainer = model.IsTrainer,
+                TrainedSport = model.TrainedSport,
+                TrainingPrice = model.TrainingPrice,
                 InvitePoints = 0,
             };
            
