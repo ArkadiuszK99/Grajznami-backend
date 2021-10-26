@@ -138,6 +138,5 @@ namespace Infrastructure.Services
             _context.Users.Update(userToSign);
             return _context.SaveChanges() > 0;
         }
-
     }
 }

@@ -26,9 +26,11 @@ namespace WebApi.Controllers
         private readonly ICurrentUserService _currentUserService;
         private readonly IEventUsersService _eventUsersService;
         private readonly IInviteService _inviteService;
+        private readonly ITrainersService _trainersService;
 
         public UserController(ILoggingService loggingService, IJwtAuthenticationManager jwtAuthenticationManager,
-            ICurrentUserService currentUserService, IEventUsersService eventUsersService, ITokenRefresher tokenRefresher, IInviteService inviteService)
+            ICurrentUserService currentUserService, IEventUsersService eventUsersService, ITokenRefresher tokenRefresher,
+            IInviteService inviteService, ITrainersService trainersService)
         {
             _loggingService = loggingService;
             _jwtAuthenticationManager = jwtAuthenticationManager;
@@ -36,6 +38,7 @@ namespace WebApi.Controllers
             _eventUsersService = eventUsersService;
             _tokenRefresher = tokenRefresher;
             _inviteService = inviteService;
+            _trainersService = trainersService;
         }
 
 
@@ -137,6 +140,14 @@ namespace WebApi.Controllers
         {
             var events = await _eventUsersService.GetUserEvents();
             return Ok(events);
+        }
+
+        [HttpGet]
+        [Route("trainers/{eventId}")]
+        public async Task<IActionResult> ReturnTrainers([FromRoute] int eventId)
+        {
+            var trainers = await _trainersService.GetTrainers(eventId);
+            return Ok(trainers);
         }
     }
 }

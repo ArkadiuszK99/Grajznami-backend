@@ -10,11 +10,12 @@ using Domain.Entities;
 
 namespace Infrastructure.MappingProfiles
 {
-    public class InviteMappingProfile : Profile
+    public class UserMappingProfile : Profile
     {
-        public InviteMappingProfile()
+        public UserMappingProfile()
         {
             CreateMap<User, InviteListUserDTO>();
+            CreateMap<User, TrainersDTO>();
         }
     }
 }
