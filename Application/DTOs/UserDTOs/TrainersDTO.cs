@@ -12,5 +12,7 @@ namespace Application.DTOs.UserDTOs
         public string LastName { get; set; }
         public string Email { get; set; }
         public float TrainingPrice { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string License { get; set; }
     }
 }

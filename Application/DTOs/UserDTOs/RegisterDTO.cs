@@ -22,6 +22,6 @@ namespace Application.DTOs
         public bool IsTrainer { get; set; }
         public string TrainedSport { get; set; }
         public float TrainingPrice { get; set; }
-        //public string License { get; set; }
+        public string License { get; set; }
     }
 }
