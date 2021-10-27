@@ -53,6 +53,7 @@ namespace Infrastructure.Services
                 IsTrainer = model.IsTrainer,
                 TrainedSport = model.TrainedSport,
                 TrainingPrice = model.TrainingPrice,
+                //License = model.License,
                 InvitePoints = 0,
             };
            

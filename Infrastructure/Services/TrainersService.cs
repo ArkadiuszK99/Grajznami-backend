@@ -32,10 +32,9 @@ namespace Infrastructure.Services
             return user;
         }
 
-        public async Task<List<TrainersDTO>> GetTrainers(int eventId)
+        public async Task<List<TrainersDTO>> GetTrainers(string sportName)
         {
-            var @event = _context.Events.Where(x => x.Id == eventId).Include(x => x.Users).Include(x => x.InvitedUsers).Include(x => x.Sport).SingleOrDefault();
-            var trainers = _context.Users.Where(x => x.IsTrainer == true).Where(x => x.TrainedSport == @event.Sport.Name).ToList();
+            var trainers = _context.Users.Where(x => x.IsTrainer == true).Where(x => x.TrainedSport == sportName).ToList();
             List<TrainersDTO> trainersToReturn = _mapper.Map<List<User>, List<TrainersDTO>>(trainers).ToList();
             return trainersToReturn;
         }

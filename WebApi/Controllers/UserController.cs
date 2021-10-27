@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Application.DTO;
 
 namespace WebApi.Controllers
 {
@@ -143,10 +144,10 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("trainers/{eventId}")]
-        public async Task<IActionResult> ReturnTrainers([FromRoute] int eventId)
+        [Route("trainers/{sportName}")]
+        public async Task<IActionResult> ReturnTrainers([FromRoute] string sportName)
         {
-            var trainers = await _trainersService.GetTrainers(eventId);
+            var trainers = await _trainersService.GetTrainers(sportName);
             return Ok(trainers);
         }
     }
