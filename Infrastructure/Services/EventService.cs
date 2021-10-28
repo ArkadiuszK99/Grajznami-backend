@@ -84,6 +84,8 @@ namespace Infrastructure.Services
             Event eventToAdd = new Event();
             eventToAdd = _mapper.Map(@event, eventToAdd);
             eventToAdd.OrganiserId = _eventUsersService.GetCurrentUser().Id;
+            eventToAdd.Trainer = await _context.Users.Where(x => x.Email == @event.TrainerEmail).SingleOrDefaultAsync();
+            
             if (eventToAdd == null)
                 return false;
 

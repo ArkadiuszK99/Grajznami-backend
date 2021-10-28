@@ -18,6 +18,6 @@ namespace Application.DTO
         public bool IsPublic { get; set; }
         public bool IsFree { get; set; }
         public decimal TotalCost { get; set; }
-        //public string TrainerEmail {get; set; }
+        public string TrainerEmail {get; set; }
 }
 }

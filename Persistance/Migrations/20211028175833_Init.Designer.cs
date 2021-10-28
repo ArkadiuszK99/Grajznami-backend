@@ -10,8 +10,8 @@ using Persistance.Contexts;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20211027054240_License")]
-    partial class License
+    [Migration("20211028175833_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
