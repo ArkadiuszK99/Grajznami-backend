@@ -27,5 +27,6 @@ namespace Application.DTOs.EventDTOs
         public bool IsPublic { get; set; }
         public bool IsFree { get; set; }
         public decimal TotalCost { get; set; }
+        public User Trainer { get; set; }
     }
 }

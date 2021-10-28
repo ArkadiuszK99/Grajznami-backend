@@ -150,5 +150,21 @@ namespace WebApi.Controllers
             var trainers = await _trainersService.GetTrainers(sportName);
             return Ok(trainers);
         }
+
+        [HttpGet]
+        [Route("isTrainer")]
+        public async Task<IActionResult> IsTrainer()
+        {
+            var isTrainer = await _trainersService.IsTrainer();
+            return Ok(isTrainer);
+        }
+
+        [HttpGet]
+        [Route("returnTrainedEvents")]
+        public async Task<IActionResult> ReturnTrainedEvents()
+        {
+            var events = await _trainersService.GetTrainedEvents();
+            return Ok(events);
+        }
     }
 }

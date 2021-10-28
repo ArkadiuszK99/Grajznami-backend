@@ -54,7 +54,7 @@ namespace Infrastructure.Services
 
         public async Task<ReturnEventByIdDTO> GetEventById(int id)
         {
-            var foundEvent = await _context.Events.Where(x => x.Id == id).Include(u => u.Users).FirstOrDefaultAsync();
+            var foundEvent = await _context.Events.Where(x => x.Id == id).Include(u => u.Users).Include(u => u.Trainer).FirstOrDefaultAsync();
             ReturnEventByIdDTO eventToReturn = new ReturnEventByIdDTO();
             eventToReturn = _mapper.Map(foundEvent, eventToReturn);
             eventToReturn.SportName = _context.Sports.Where(x => x.Id == eventToReturn.SportId).SingleOrDefault().Name;

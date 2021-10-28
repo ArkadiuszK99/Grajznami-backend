@@ -12,6 +12,8 @@ namespace Application.Interfaces
     public interface ITrainersService
     {
         public Task<List<TrainersDTO>> GetTrainers(string sportName);
+        public Task<List<ReturnEventDTO>> GetTrainedEvents();
+        public Task<bool> IsTrainer();
         public User GetCurrentUser();
     }
 }

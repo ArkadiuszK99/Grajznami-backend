@@ -38,5 +38,32 @@ namespace Infrastructure.Services
             List<TrainersDTO> trainersToReturn = _mapper.Map<List<User>, List<TrainersDTO>>(trainers).ToList();
             return trainersToReturn;
         }
+
+        public async Task<List<ReturnEventDTO>> GetTrainedEvents()
+        {
+            var user = GetCurrentUser();
+            var events = await _context.Events.Where(x => x.Trainer == user).Include(x => x.Users).ToListAsync();
+            List<ReturnEventDTO> evToReturn = _mapper.Map<List<Event>, List<ReturnEventDTO>>(events);
+
+            foreach (var @event in evToReturn)
+            {
+                @event.SportName = _context.Sports.Where(x => x.Id == @event.SportId).SingleOrDefault().Name;
+                @event.OrganiserName = _context.Users.Where(x => x.Id == @event.OrganiserId).SingleOrDefault().FirstName;
+            }
+
+            for (int i = 0; i < events.Count(); i++)
+            {
+                evToReturn[i].UsersCount = events[i].Users.Count();
+            }
+
+            return evToReturn;
+        }
+
+        public async Task<bool> IsTrainer()
+        {
+            var user = GetCurrentUser();
+
+            return user.IsTrainer;
+        }
     }
 }
