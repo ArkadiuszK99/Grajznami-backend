@@ -28,5 +28,6 @@ namespace Application.DTOs.EventDTOs
         public bool IsFree { get; set; }
         public decimal TotalCost { get; set; }
         public User Trainer { get; set; }
+        public string TrainerEmail { get; set; }
     }
 }

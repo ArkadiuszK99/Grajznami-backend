@@ -59,7 +59,11 @@ namespace Infrastructure.Services
             eventToReturn = _mapper.Map(foundEvent, eventToReturn);
             eventToReturn.SportName = _context.Sports.Where(x => x.Id == eventToReturn.SportId).SingleOrDefault().Name;
             eventToReturn.OrganiserName = _context.Users.Where(x => x.Id == eventToReturn.OrganiserId).SingleOrDefault().FirstName;
-
+            if (foundEvent.Trainer != null)
+            {
+                eventToReturn.TrainerEmail = foundEvent.Trainer.Email;
+            }
+            
             if (foundEvent == null)
                 return null;
             else

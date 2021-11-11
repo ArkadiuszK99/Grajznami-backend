@@ -62,8 +62,11 @@ namespace Infrastructure.Services
         public async Task<bool> IsTrainer()
         {
             var user = GetCurrentUser();
-
-            return user.IsTrainer;
+            if (user!=null)
+            {
+                return user.IsTrainer;
+            }
+            return false;
         }
     }
 }
