@@ -20,6 +20,8 @@ namespace Application.DTOs.EventDTOs
         public DateTime Date { get; set; }
         public string OrganiserId { get; set; }
         public string OrganiserName { get; set; }
+        public string OrganiserEmail { get; set; }
+        public string OrganiserPhoneNumber { get; set; }
         public List<EventUsersDTO> Users { get; set; }
         public int UsersLimit { get; set; }
         public int UsersCount { get; set; }
@@ -27,7 +29,6 @@ namespace Application.DTOs.EventDTOs
         public bool IsPublic { get; set; }
         public bool IsFree { get; set; }
         public decimal TotalCost { get; set; }
-        public User Trainer { get; set; }
         public string TrainerEmail { get; set; }
     }
 }

@@ -11,6 +11,9 @@ namespace Application.DTOs.UserDTOs
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string Skill { get; set; }
+        public string City { get; set; }
+        public int GamesParticipated{ get; set; }
         public DateTime DateOfBirth { get; set; }
     }
 }

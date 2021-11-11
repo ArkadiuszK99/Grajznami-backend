@@ -77,6 +77,14 @@ namespace Infrastructure.Services
                 usersToInvite.Remove(user);
             }
 
+            if (@event.Trainer != null)
+            {
+                usersToInvite.Remove(@event.Trainer);
+            }
+            if (usersToInvite != null)
+            {
+
+            }
             foreach (var user in usersToInvite)
             {
                 if (user.City == @event.Users.First().City)
@@ -117,6 +125,18 @@ namespace Infrastructure.Services
             var usersToInviteDescending = usersToInvite.OrderByDescending(x => x.InvitePoints).ToList();
 
             var userList = usersToInviteDescending.Select(item => _mapper.Map<User, InviteListUserDTO>(item)).ToList();
+
+            foreach (var user1 in usersToInvite)
+            {
+                var participatedEvents = user1.Events.Count();
+                foreach (var user2 in userList)
+                {
+                    if (user1.Email == user2.Email)
+                    {
+                        user2.GamesParticipated = participatedEvents;
+                    }
+                }
+            }
             return userList;
         }
 
