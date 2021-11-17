@@ -49,6 +49,8 @@ namespace Infrastructure.Services
                 eventsToReturn[i].UsersCount = availableEvents[i].Users.Count();
             }
 
+            eventsToReturn = eventsToReturn.OrderByDescending(x => x.Date).ToList();
+
             return eventsToReturn;
         }
 

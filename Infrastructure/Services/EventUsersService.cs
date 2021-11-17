@@ -73,6 +73,7 @@ namespace Infrastructure.Services
             {
                 evToReturn[i].UsersCount = events[i].Users.Count();
             }
+            evToReturn = evToReturn.OrderByDescending(x => x.Date).ToList();
 
             return evToReturn;
         }
@@ -95,6 +96,7 @@ namespace Infrastructure.Services
             {
                 evToReturn[i].UsersCount = events[i].Users.Count();
             }
+            evToReturn = evToReturn.OrderByDescending(x => x.Date).ToList();
 
             return evToReturn;
         }
@@ -105,6 +107,7 @@ namespace Infrastructure.Services
             var user = GetCurrentUser();
             UserEventsDTO userEvents = new UserEventsDTO();
             var eventList = user.InvitedToEvents.Select(x => _mapper.Map(x, userEvents)).ToList();
+            eventList = eventList.OrderByDescending(x => x.Date).ToList();
 
             return eventList;
         }

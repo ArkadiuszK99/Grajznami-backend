@@ -156,6 +156,7 @@ namespace Infrastructure.Services
             {
                 evToReturn[i].UsersCount = events[i].Users.Count();
             }
+            evToReturn = evToReturn.OrderByDescending(x => x.Date).ToList();
 
             return evToReturn;
         }
