@@ -61,6 +61,7 @@ namespace WebApi
             services.AddTransient<IValidator<LoginDTO>, LoginValidator>();
             services.AddTransient<IInviteService, InviteService>();
             services.AddTransient<ITrainersService, TrainersService>();
+            services.AddTransient<IStatsService, StatsService>();
 
             services.AddAuthentication(x =>
                 {

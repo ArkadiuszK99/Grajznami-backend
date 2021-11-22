@@ -14,6 +14,7 @@ namespace Infrastructure.MappingProfiles
     {
         public UserMappingProfile()
         {
+            CreateMap<User, StatsDTO>();
             CreateMap<User, InviteListUserDTO>();
             CreateMap<User, TrainersDTO>();
         }
