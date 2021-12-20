@@ -94,6 +94,7 @@ namespace WebApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (_eventService.DeleteEvent(id))
@@ -104,6 +105,7 @@ namespace WebApi.Controllers
 
         [HttpPatch]
         [Route("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Put([FromBody] ModifyEventDTO @event, [FromRoute] int id)
         {
             if (@event == null)

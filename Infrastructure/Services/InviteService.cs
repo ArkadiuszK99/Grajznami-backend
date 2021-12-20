@@ -81,23 +81,31 @@ namespace Infrastructure.Services
             {
                 usersToInvite.Remove(@event.Trainer);
             }
-            if (usersToInvite != null)
-            {
 
+            List<User> usersToRemove = new List<User>();
+            foreach (var user in usersToInvite)
+            {
+                if (user.FavouriteSport != @event.Sport.Name)
+                {
+                    usersToRemove.Add(user);
+                }
             }
+
+            foreach (var user in usersToRemove)
+            {
+                usersToInvite.Remove(user);
+            }
+
             foreach (var user in usersToInvite)
             {
                 if (user.City == @event.Users.First().City)
                 {
-                    user.InvitePoints += 200;
+                    user.InvitePoints += 500;
                 }
-                if (user.FavouriteSport == @event.Sport.Name)
-                {
-                   user.InvitePoints += 100;
-                }
+                
                 if (user.Skill == @event.Users.First().Skill)
                 {
-                    user.InvitePoints += 50;
+                    user.InvitePoints += 100;
                 }
 
                 DateTime minusFive = @event.Users.First().DateOfBirth.AddYears(-5);
@@ -107,20 +115,29 @@ namespace Infrastructure.Services
 
                 if (minusResult > 0 && plusResult <0)
                 {
-                    user.InvitePoints += 30;
+                    user.InvitePoints += 100;
                 }
 
-                int i = 0;
                 foreach (var participatedEvent in user.Events)
                 {
-                    i++;
-                    if(participatedEvent.Sport == @event.Sport)
+
+                    DateTime todayDate = DateTime.Today;
+                    DateTime monthAgoDate = DateTime.Today.AddMonths(-1);
+                    DateTime threeMonthsAgoDate = DateTime.Today.AddMonths(-3);
+                    int compareTodayDate = DateTime.Compare(participatedEvent.Date, todayDate);
+                    int compareMonthAgoDate = DateTime.Compare(participatedEvent.Date, monthAgoDate);
+                    int compareThreeMonthsAgoDate = DateTime.Compare(participatedEvent.Date, threeMonthsAgoDate);
+
+                    if (compareTodayDate < 0 && compareMonthAgoDate > 0)
+                    {
+                        user.InvitePoints += 50;
+                    }
+
+                    if (compareMonthAgoDate < 0 && compareThreeMonthsAgoDate > 0)
                     {
                         user.InvitePoints += 20;
                     }
-                    if (i == 5) break;
                 }
-                i = 0;
             }
             var usersToInviteDescending = usersToInvite.OrderByDescending(x => x.InvitePoints).ToList();
 
